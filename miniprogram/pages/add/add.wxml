@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="form">
+    <view class="form-item">
+      <text class="label">待办事项</text>
+      <input class="input" placeholder="请输入待办内容" value="{{title}}" bindinput="onInput" focus="true" />
+    </view>
+    <view class="form-item">
+      <text class="label">备注（可选）</text>
+      <textarea class="textarea" placeholder="添加备注..." value="{{remark}}" bindinput="onRemarkInput" />
+    </view>
+  </view>
+  <button class="submit-btn" bindtap="onSubmit" disabled="{{!title}}">添加待办</button>
+</view>

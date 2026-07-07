@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="header">
+    <text class="title">📝 待办清单</text>
+    <text class="count">{{todos.length}} 项待办</text>
+  </view>
+
+  <view class="todo-list" wx:if="{{todos.length > 0}}">
+    <view class="todo-item {{item.done ? 'done' : ''}}" wx:for="{{todos}}" wx:key="_id" bindlongpress="onDelete" data-id="{{item._id}}">
+      <view class="todo-check" bindtap="onToggle" data-id="{{item._id}}" data-done="{{item.done}}">
+        <text class="check-icon">{{item.done ? '✅' : '⬜'}}</text>
+      </view>
+      <view class="todo-content">
+        <text class="todo-title">{{item.title}}</text>
+        <text class="todo-time">{{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:else>
+    <text class="empty-icon">🎉</text>
+    <text class="empty-text">暂无待办事项</text>
+    <text class="empty-hint">点击下方按钮添加</text>
+  </view>
+
+  <view class="fab" bindtap="onAdd">
+    <text class="fab-icon">+</text>
+  </view>
+</view>
