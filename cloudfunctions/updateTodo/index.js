@@ -1,15 +1,32 @@
 const cloud = require('wx-server-sdk')
+const mysql = require('mysql2/promise')
+
 cloud.init({ env: 'dev-0ggqs5te8ed2bcdd' })
-const db = cloud.database()
 
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
   const { id, done } = event
   
+  if (id === undefined || done === undefined) {
+    return { success: false, error: 'id 和 done 不能为空' }
+  }
+  
   try {
-    await db.collection('todos').doc(id).update({
-      data: { done: done }
+    const connection = await mysql.createConnection({
+      host: '172.17.0.3',
+      port: 3306,
+      user: 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      database: 'dev-0ggqs5te8ed2bcdd'
     })
-    return { success: true }
+    
+    const [result] = await connection.execute(
+      'UPDATE todos SET done = ? WHERE id = ? AND openid = ?',
+      [done ? 1 : 0, id, wxContext.OPENID]
+    )
+    
+    await connection.end()
+    return { success: true, affectedRows: result.affectedRows }
   } catch (err) {
     return { success: false, error: err.message }
   }

@@ -1,22 +1,32 @@
 const cloud = require('wx-server-sdk')
+const mysql = require('mysql2/promise')
+
 cloud.init({ env: 'dev-0ggqs5te8ed2bcdd' })
-const db = cloud.database()
 
 exports.main = async (event, context) => {
-  const { title, remark } = event
   const wxContext = cloud.getWXContext()
+  const { title, remark } = event
+  
+  if (!title) {
+    return { success: false, error: 'title 不能为空' }
+  }
   
   try {
-    const res = await db.collection('todos').add({
-      data: {
-        title: title,
-        remark: remark || '',
-        done: false,
-        _openid: wxContext.OPENID,
-        createTime: db.serverDate()
-      }
+    const connection = await mysql.createConnection({
+      host: '172.17.0.3',
+      port: 3306,
+      user: 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      database: 'dev-0ggqs5te8ed2bcdd'
     })
-    return { success: true, id: res._id }
+    
+    const [result] = await connection.execute(
+      'INSERT INTO todos (title, remark, openid) VALUES (?, ?, ?)',
+      [title, remark || '', wxContext.OPENID]
+    )
+    
+    await connection.end()
+    return { success: true, id: result.insertId }
   } catch (err) {
     return { success: false, error: err.message }
   }

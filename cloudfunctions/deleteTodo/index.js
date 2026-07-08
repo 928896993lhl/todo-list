@@ -1,13 +1,32 @@
 const cloud = require('wx-server-sdk')
+const mysql = require('mysql2/promise')
+
 cloud.init({ env: 'dev-0ggqs5te8ed2bcdd' })
-const db = cloud.database()
 
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
   const { id } = event
   
+  if (!id) {
+    return { success: false, error: 'id 不能为空' }
+  }
+  
   try {
-    await db.collection('todos').doc(id).remove()
-    return { success: true }
+    const connection = await mysql.createConnection({
+      host: '172.17.0.3',
+      port: 3306,
+      user: 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      database: 'dev-0ggqs5te8ed2bcdd'
+    })
+    
+    const [result] = await connection.execute(
+      'DELETE FROM todos WHERE id = ? AND openid = ?',
+      [id, wxContext.OPENID]
+    )
+    
+    await connection.end()
+    return { success: true, affectedRows: result.affectedRows }
   } catch (err) {
     return { success: false, error: err.message }
   }
