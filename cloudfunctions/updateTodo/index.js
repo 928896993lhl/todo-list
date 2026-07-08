@@ -1,7 +1,7 @@
 const cloud = require('wx-server-sdk')
 const mysql = require('mysql2/promise')
 
-cloud.init({ env: 'dev-0ggqs5te8ed2bcdd' })
+cloud.init({ env: 'dev-allknow-3gni7da4dc75550b' })
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
