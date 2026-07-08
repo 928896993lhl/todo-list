@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
   
   try {
     const connection = await mysql.createConnection({
-      host: '172.17.0.3',
+      host: '172.17.0.13',
       port: 3306,
       user: 'root',
       database: 'dev-0ggqs5te8ed2bcdd'
