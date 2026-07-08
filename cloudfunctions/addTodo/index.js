@@ -12,12 +12,16 @@ exports.main = async (event, context) => {
   }
   
   try {
+    console.log('Connecting to MySQL...')
     const connection = await mysql.createConnection({
       host: '172.17.0.13',
       port: 3306,
-      user: 'root',
-      database: 'dev-allknow-3gni7da4dc75550b'
+      user: 'admin',
+      password: '2016Iamfine!',
+      database: 'dev-allknow-3gni7da4dc75550b',
+      connectTimeout: 5000
     })
+    console.log('Connected! Inserting...')
     
     const [result] = await connection.execute(
       'INSERT INTO todos (title, remark, openid, _openid) VALUES (?, ?, ?, ?)',
@@ -25,8 +29,10 @@ exports.main = async (event, context) => {
     )
     
     await connection.end()
+    console.log('Done! ID:', result.insertId)
     return { success: true, id: result.insertId }
   } catch (err) {
-    return { success: false, error: err.message }
+    console.error('DB Error:', err.message, err.code)
+    return { success: false, error: err.message, code: err.code }
   }
 }

@@ -15,7 +15,8 @@ exports.main = async (event, context) => {
     const connection = await mysql.createConnection({
       host: '172.17.0.13',
       port: 3306,
-      user: 'root',
+      user: 'admin',
+      password: '2016Iamfine!',
       database: 'dev-allknow-3gni7da4dc75550b'
     })
     

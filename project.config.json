@@ -33,13 +33,33 @@
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true
+    "packNpmManually": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "miniprogram/package.json",
+        "miniprogramNpmDistDir": "miniprogram/"
+      }
+    ],
+    "minifyWXSS": true,
+    "compileWorklet": false,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
-  "appid": "",
+  "appid": "wxe35af2783630ce28",
   "projectname": "todo-list",
   "libVersion": "2.25.4",
-  "cloudfunctionTemplateRoot": "",
-  "condition": {}
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+  "condition": {},
+  "compileType": "miniprogram",
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {}
 }

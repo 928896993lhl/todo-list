@@ -4,3 +4,4 @@ private.key
 .DS_Store
 preview-qrcode.jpg
 package-lock.json
+project.private.config.json
