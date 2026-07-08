@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
       host: '172.17.0.13',
       port: 3306,
       user: 'root',
-      database: 'dev-0ggqs5te8ed2bcdd'
+      database: 'dev-allknow-3gni7da4dc75550b'
     })
     
     const [rows] = await connection.execute(
