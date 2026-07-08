@@ -1,6 +1,3 @@
-const db = wx.cloud.database()
-const todos = db.collection('todos')
-
 Page({
   data: {
     title: '',
@@ -24,18 +21,21 @@ Page({
 
     wx.showLoading({ title: '添加中...' })
     try {
-      await todos.add({
+      const res = await wx.cloud.callFunction({
+        name: 'addTodo',
         data: {
           title: title.trim(),
-          remark: remark.trim(),
-          done: false,
-          createTime: db.serverDate()
+          remark: remark.trim()
         }
       })
-      wx.showToast({ title: '添加成功', icon: 'success' })
-      setTimeout(() => {
-        wx.navigateBack()
-      }, 800)
+      if (res.result.success) {
+        wx.showToast({ title: '添加成功', icon: 'success' })
+        setTimeout(() => {
+          wx.navigateBack()
+        }, 800)
+      } else {
+        wx.showToast({ title: '添加失败', icon: 'none' })
+      }
     } catch (e) {
       console.error('添加失败:', e)
       wx.showToast({ title: '添加失败', icon: 'none' })

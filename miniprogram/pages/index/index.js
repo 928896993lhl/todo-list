@@ -1,6 +1,3 @@
-const db = wx.cloud.database()
-const todos = db.collection('todos')
-
 Page({
   data: {
     todos: []
@@ -13,12 +10,16 @@ Page({
   async loadTodos() {
     wx.showLoading({ title: '加载中...' })
     try {
-      const res = await todos.orderBy('createTime', 'desc').limit(100).get()
-      const list = res.data.map(item => ({
-        ...item,
-        createTime: this.formatTime(item.createTime)
-      }))
-      this.setData({ todos: list })
+      const res = await wx.cloud.callFunction({ name: 'getTodos' })
+      if (res.result.success) {
+        const list = res.result.data.map(item => ({
+          ...item,
+          create_time: this.formatTime(item.create_time)
+        }))
+        this.setData({ todos: list })
+      } else {
+        wx.showToast({ title: '加载失败', icon: 'none' })
+      }
     } catch (e) {
       console.error('加载失败:', e)
       wx.showToast({ title: '加载失败', icon: 'none' })
@@ -43,8 +44,9 @@ Page({
   async onToggle(e) {
     const { id, done } = e.currentTarget.dataset
     try {
-      await todos.doc(id).update({
-        data: { done: !done }
+      await wx.cloud.callFunction({
+        name: 'updateTodo',
+        data: { id, done: !done }
       })
       this.loadTodos()
     } catch (e) {
@@ -61,7 +63,10 @@ Page({
       success: async (res) => {
         if (res.confirm) {
           try {
-            await todos.doc(id).remove()
+            await wx.cloud.callFunction({
+              name: 'deleteTodo',
+              data: { id }
+            })
             wx.showToast({ title: '已删除', icon: 'success' })
             this.loadTodos()
           } catch (e) {
