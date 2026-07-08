@@ -1,0 +1,23 @@
+{
+  "name": "todo-list-miniprogram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/928896993lhl/todo-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/928896993lhl/todo-list/issues"
+  },
+  "homepage": "https://github.com/928896993lhl/todo-list#readme",
+  "dependencies": {
+    "miniprogram-ci": "^2.1.31"
+  }
+}

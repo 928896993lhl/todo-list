@@ -1,0 +1,6 @@
+node_modules/
+private.key
+*.key
+.DS_Store
+preview-qrcode.jpg
+package-lock.json
