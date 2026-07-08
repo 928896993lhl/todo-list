@@ -16,7 +16,6 @@ exports.main = async (event, context) => {
       host: '172.17.0.3',
       port: 3306,
       user: 'root',
-      password: process.env.MYSQL_PASSWORD || '',
       database: 'dev-0ggqs5te8ed2bcdd'
     })
     
